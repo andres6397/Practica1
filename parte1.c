@@ -22,6 +22,10 @@ static unsigend int contador3 = 0;
 static unsigend int contador4 = 0; 
 static bool     ledOn = 0; //Esta apagado por defecto
 
+static int __init ebbgpio_init(void){
+	
+}
+
 static void __exit ebbgpio_exit(void){
    printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton1));
    printk(KERN_INFO "parte1.c: The button was pressed %d times\n", contador1);
@@ -51,3 +55,5 @@ static void __exit ebbgpio_exit(void){
    printk(KERN_INFO "GPIO_TEST: Goodbye from the LKM!\n");
 }
 
+module_init(ebbgpio_init);
+module_exit(ebbgpio_exit);
