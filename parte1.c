@@ -23,7 +23,12 @@ static unsigend int contador4 = 0;
 static bool     ledOn = 0; //Esta apagado por defecto
 
 static int __init ebbgpio_init(void){
-	
+   printk(KERN_INFO "parte1.c: Initializing parte1.c LKM\n");
+   //Comprobamos si el pin del led rojo es valido
+   if (!gpio_is_valid(ledRojo)){
+      printk(KERN_INFO "parte1.c: invalid LED GPIO\n");
+      return -ENODEV;
+   }	
 }
 
 static void __exit ebbgpio_exit(void){
