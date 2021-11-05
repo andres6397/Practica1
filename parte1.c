@@ -34,7 +34,7 @@ static int __init ebbgpio_init(void){
       printk(KERN_INFO "parte1.c: invalid LED GPIO\n");
       return -ENODEV;
    }
-
+   //Asignamos los leds como outputs
    ledOn = true;
    gpio_request(ledAzul, "sysfs");          
    gpio_direction_output(ledAzul, ledOn);   
@@ -44,6 +44,26 @@ static int __init ebbgpio_init(void){
    gpio_request(ledVerde, "sysfs");          
    gpio_direction_output(ledVerde, ledOn);   
    gpio_export(ledVerde, false); 
+   //Asignamos los botones como inputs	
+   gpio_request(boton1, "sysfs");       
+   gpio_direction_input(boton1);        
+   gpio_set_debounce(boton1, 200);      
+   gpio_export(boton1, false);
+
+   gpio_request(boton2, "sysfs");       
+   gpio_direction_input(boton2);        
+   gpio_set_debounce(boton2, 200);      
+   gpio_export(boton2, false);
+
+   gpio_request(boton3, "sysfs");       
+   gpio_direction_input(boton3);        
+   gpio_set_debounce(boton3, 200);      
+   gpio_export(boton3, false);
+
+   gpio_request(boton4, "sysfs");       
+   gpio_direction_input(boton4);        
+   gpio_set_debounce(boton4, 200);      
+   gpio_export(boton4, false);
 }
 
 static void __exit ebbgpio_exit(void){
