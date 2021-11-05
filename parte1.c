@@ -64,6 +64,11 @@ static int __init ebbgpio_init(void){
    gpio_direction_input(boton4);        
    gpio_set_debounce(boton4, 200);      
    gpio_export(boton4, false);
+   //Mostramos el estado actual de cada boton
+   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton1));
+   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton2));
+   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton3));
+   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton4));
 }
 
 static void __exit ebbgpio_exit(void){
