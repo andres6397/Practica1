@@ -16,10 +16,10 @@ static unsigned int boton1 = 21;
 static unsigned int boton2 = 26;
 static unsigned int boton3 = 19;
 static unsigned int boton4 = 13;
-static unsigend int contador1 = 0; 
-static unsigend int contador2 = 0; 
-static unsigend int contador3 = 0; 
-static unsigend int contador4 = 0; 
+static int contador1 = 0; 
+static int contador2 = 0; 
+static int contador3 = 0; 
+static int contador4 = 0; 
 static bool     ledOn1 = 0; //Esta apagado por defecto
 static bool     ledOn2 = 0; //Esta apagado por defecto
 static unsigned int irqNumber1;
@@ -89,7 +89,7 @@ static int __init ebbgpio_init(void){
    printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber3);
    printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber4);
    //Llamada a la funcion 
-   result = request_irq(irqNumber, (irq_handler_t) ebbgpio_irq_handler, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
+   result = request_irq(irqNumber1, (irq_handler_t) ebbgpio_irq_handler, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
 
    printk(KERN_INFO "parte1.c: The interrupt request result is: %d\n", result);
    return result;
