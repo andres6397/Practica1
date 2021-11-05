@@ -33,7 +33,17 @@ static int __init ebbgpio_init(void){
    if (!gpio_is_valid(ledVerde)){
       printk(KERN_INFO "parte1.c: invalid LED GPIO\n");
       return -ENODEV;
-   }	
+   }
+
+   ledOn = true;
+   gpio_request(ledAzul, "sysfs");          
+   gpio_direction_output(ledAzul, ledOn);   
+   gpio_export(ledAzul, false);  
+
+   ledOn = true;
+   gpio_request(ledVerde, "sysfs");          
+   gpio_direction_output(ledVerde, ledOn);   
+   gpio_export(ledVerde, false); 
 }
 
 static void __exit ebbgpio_exit(void){
