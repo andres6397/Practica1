@@ -27,6 +27,8 @@ static unsigned int irqNumber2;
 static unsigned int irqNumber3;
 static unsigned int irqNumber4;
 
+static irq_handler_t  ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs);
+
 static int __init ebbgpio_init(void){
    int result = 0;
 
