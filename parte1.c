@@ -21,6 +21,10 @@ static unsigend int contador2 = 0;
 static unsigend int contador3 = 0; 
 static unsigend int contador4 = 0; 
 static bool     ledOn = 0; //Esta apagado por defecto
+static unsigned int irqNumber1;
+static unsigned int irqNumber2;
+static unsigned int irqNumber3;
+static unsigned int irqNumber4;
 
 static int __init ebbgpio_init(void){
    printk(KERN_INFO "parte1.c: Initializing parte1.c LKM\n");
@@ -64,11 +68,22 @@ static int __init ebbgpio_init(void){
    gpio_direction_input(boton4);        
    gpio_set_debounce(boton4, 200);      
    gpio_export(boton4, false);
+   
    //Mostramos el estado actual de cada boton
    printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton1));
    printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton2));
    printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton3));
    printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton4));
+
+   //Igualamos el numero del GPIO con el de IRQ
+   irqNumber1 = gpio_to_irq(boton1);
+   irqNumber2 = gpio_to_irq(boton2);
+   irqNumber3 = gpio_to_irq(boton3);
+   irqNumber4 = gpio_to_irq(boton4);
+   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber1);
+   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber2);
+   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber3);
+   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber4);
 }
 
 static void __exit ebbgpio_exit(void){
