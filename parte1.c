@@ -110,7 +110,10 @@ static void __exit ebbgpio_exit(void){
    gpio_set_value(ledVerde, 0);              // Turn the LED off, makes it clear the device was unloaded
    gpio_unexport(ledVerde);                  // Unexport the LED GPIO
 
-   free_irq(irqNumber, NULL);               // Free the IRQ number, no *dev_id required in this case
+   free_irq(irqNumber1, NULL);               // Free the IRQ number, no *dev_id required in this case
+   free_irq(irqNumber2, NULL);               // Free the IRQ number, no *dev_id required in this case
+   free_irq(irqNumber3, NULL);               // Free the IRQ number, no *dev_id required in this case
+   free_irq(irqNumber4, NULL);               // Free the IRQ number, no *dev_id required in this case
 
    gpio_unexport(boton1);               // Unexport the Button GPIO
    gpio_unexport(boton2);               // Unexport the Button GPIO
