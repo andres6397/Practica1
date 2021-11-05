@@ -112,7 +112,15 @@ static void __exit ebbgpio_exit(void){
    gpio_free(boton2);                      // Free the button GPIO
    gpio_free(boton3);                      // Free the button GPIO
    gpio_free(boton4);                   // Free the button GPIO
-   printk(KERN_INFO "GPIO_TEST: Goodbye from the LKM!\n");
+   printk(KERN_INFO "parte1.c: Goodbye from the LKM!\n");
+}
+
+static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs){
+   ledOn = !ledOn;                          // Invert the LED state on each button press
+   gpio_set_value(ledVerde, ledOn);          // Set the physical LED accordingly
+   printk(KERN_INFO "parte1.c: Interrupt! (button state is %d)\n", gpio_get_value(boton1));
+   contador1++;                         // Global counter, will be outputted when the module is unloaded
+   return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
 }
 
 module_init(ebbgpio_init);
