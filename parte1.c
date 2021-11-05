@@ -20,13 +20,16 @@ static unsigend int contador1 = 0;
 static unsigend int contador2 = 0; 
 static unsigend int contador3 = 0; 
 static unsigend int contador4 = 0; 
-static bool     ledOn = 0; //Esta apagado por defecto
+static bool     ledOn1 = 0; //Esta apagado por defecto
+static bool     ledOn2 = 0; //Esta apagado por defecto
 static unsigned int irqNumber1;
 static unsigned int irqNumber2;
 static unsigned int irqNumber3;
 static unsigned int irqNumber4;
 
 static int __init ebbgpio_init(void){
+   int result = 0;
+
    printk(KERN_INFO "parte1.c: Initializing parte1.c LKM\n");
    //Comprobamos si el pin del led azul es valido
    if (!gpio_is_valid(ledAzul)){
@@ -39,15 +42,16 @@ static int __init ebbgpio_init(void){
       return -ENODEV;
    }
    //Asignamos los leds como outputs
-   ledOn = true;
+   ledOn1 = true;
    gpio_request(ledAzul, "sysfs");          
-   gpio_direction_output(ledAzul, ledOn);   
+   gpio_direction_output(ledAzul, ledOn1);   
    gpio_export(ledAzul, false);  
 
-   ledOn = true;
+   ledOn2 = true;
    gpio_request(ledVerde, "sysfs");          
-   gpio_direction_output(ledVerde, ledOn);   
+   gpio_direction_output(ledVerde, ledOn2);   
    gpio_export(ledVerde, false); 
+
    //Asignamos los botones como inputs	
    gpio_request(boton1, "sysfs");       
    gpio_direction_input(boton1);        
@@ -84,6 +88,11 @@ static int __init ebbgpio_init(void){
    printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber2);
    printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber3);
    printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber4);
+   //Llamada a la funcion 
+   result = request_irq(irqNumber, (irq_handler_t) ebbgpio_irq_handler, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
+
+   printk(KERN_INFO "parte1.c: The interrupt request result is: %d\n", result);
+   return result;
 }
 
 static void __exit ebbgpio_exit(void){
@@ -116,8 +125,8 @@ static void __exit ebbgpio_exit(void){
 }
 
 static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs){
-   ledOn = !ledOn;                          // Invert the LED state on each button press
-   gpio_set_value(ledVerde, ledOn);          // Set the physical LED accordingly
+   ledOn1 = !ledOn1;                          // Invert the LED state on each button press
+   gpio_set_value(ledAzul, ledOn1);          // Set the physical LED accordingly
    printk(KERN_INFO "parte1.c: Interrupt! (button state is %d)\n", gpio_get_value(boton1));
    contador1++;                         // Global counter, will be outputted when the module is unloaded
    return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
