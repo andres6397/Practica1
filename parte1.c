@@ -27,7 +27,10 @@ static unsigned int irqNumber2;
 static unsigned int irqNumber3;
 static unsigned int irqNumber4;
 
-static irq_handler_t  ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs);
+static irq_handler_t  ebbgpio_irq_handler1(unsigned int irq, void *dev_id, struct pt_regs *regs);
+static irq_handler_t  ebbgpio_irq_handler2(unsigned int irq, void *dev_id, struct pt_regs *regs);
+static irq_handler_t  ebbgpio_irq_handler3(unsigned int irq, void *dev_id, struct pt_regs *regs);
+static irq_handler_t  ebbgpio_irq_handler4(unsigned int irq, void *dev_id, struct pt_regs *regs);
 
 static int __init ebbgpio_init(void){
    int result = 0;
@@ -90,8 +93,12 @@ static int __init ebbgpio_init(void){
    printk(KERN_INFO "parte1.c: The button 2 is mapped to IRQ: %d\n", irqNumber2);
    printk(KERN_INFO "parte1.c: The button 3 is mapped to IRQ: %d\n", irqNumber3);
    printk(KERN_INFO "parte1.c: The button 4 is mapped to IRQ: %d\n", irqNumber4);
+
    //Llamada a la funcion 
-   result = request_irq(irqNumber1, (irq_handler_t) ebbgpio_irq_handler, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
+   result = request_irq(irqNumber1, (irq_handler_t) ebbgpio_irq_handler1, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
+   result = request_irq(irqNumber2, (irq_handler_t) ebbgpio_irq_handler2, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
+   result = request_irq(irqNumber3, (irq_handler_t) ebbgpio_irq_handler3, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
+   result = request_irq(irqNumber4, (irq_handler_t) ebbgpio_irq_handler4, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
 
    printk(KERN_INFO "parte1.c: The interrupt request result is: %d\n", result);
    return result;
@@ -133,13 +140,33 @@ static void __exit ebbgpio_exit(void){
    printk(KERN_INFO "parte1.c: Goodbye from the LKM!\n");
 }
 
-static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs){
+static irq_handler_t ebbgpio_irq_handler1(unsigned int irq, void *dev_id, struct pt_regs *regs){
    ledOn1 = !ledOn1;                          // Invert the LED state on each button press
    gpio_set_value(ledAzul, ledOn1);          // Set the physical LED accordingly
    printk(KERN_INFO "parte1.c: Interrupt! (button 1 state is %d)\n", gpio_get_value(boton1));
    contador1++;                         // Global counter, will be outputted when the module is unloaded
    return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
 }
-
+static irq_handler_t ebbgpio_irq_handler2(unsigned int irq, void *dev_id, struct pt_regs *regs){
+   ledOn1 = !ledOn1;                          // Invert the LED state on each button press
+   gpio_set_value(ledAzul, ledOn1);          // Set the physical LED accordingly
+   printk(KERN_INFO "parte1.c: Interrupt! (button 2 state is %d)\n", gpio_get_value(boton2));
+   contador2++;                         // Global counter, will be outputted when the module is unloaded
+   return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
+}
+static irq_handler_t ebbgpio_irq_handler3(unsigned int irq, void *dev_id, struct pt_regs *regs){
+   ledOn2 = !ledOn2;                          // Invert the LED state on each button press
+   gpio_set_value(ledVerde, ledOn2);          // Set the physical LED accordingly
+   printk(KERN_INFO "parte1.c: Interrupt! (button 3 state is %d)\n", gpio_get_value(boton3));
+   contador3++;                         // Global counter, will be outputted when the module is unloaded
+   return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
+}
+static irq_handler_t ebbgpio_irq_handler4(unsigned int irq, void *dev_id, struct pt_regs *regs){
+   ledOn2 = !ledOn2;                          // Invert the LED state on each button press
+   gpio_set_value(ledVerde, ledOn2);          // Set the physical LED accordingly
+   printk(KERN_INFO "parte1.c: Interrupt! (button 4 state is %d)\n", gpio_get_value(boton4));
+   contador4++;                         // Global counter, will be outputted when the module is unloaded
+   return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
+}
 module_init(ebbgpio_init);
 module_exit(ebbgpio_exit);
