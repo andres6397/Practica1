@@ -76,20 +76,20 @@ static int __init ebbgpio_init(void){
    gpio_export(boton4, false);
    
    //Mostramos el estado actual de cada boton
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton1));
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton2));
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton3));
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton4));
+   printk(KERN_INFO "parte1.c: The button 1 state is currently: %d\n", gpio_get_value(boton1));
+   printk(KERN_INFO "parte1.c: The button 2 state is currently: %d\n", gpio_get_value(boton2));
+   printk(KERN_INFO "parte1.c: The button 3 state is currently: %d\n", gpio_get_value(boton3));
+   printk(KERN_INFO "parte1.c: The button 4 state is currently: %d\n", gpio_get_value(boton4));
 
    //Igualamos el numero del GPIO con el de IRQ
    irqNumber1 = gpio_to_irq(boton1);
    irqNumber2 = gpio_to_irq(boton2);
    irqNumber3 = gpio_to_irq(boton3);
    irqNumber4 = gpio_to_irq(boton4);
-   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber1);
-   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber2);
-   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber3);
-   printk(KERN_INFO "parte1.c: The button is mapped to IRQ: %d\n", irqNumber4);
+   printk(KERN_INFO "parte1.c: The button 1 is mapped to IRQ: %d\n", irqNumber1);
+   printk(KERN_INFO "parte1.c: The button 2 is mapped to IRQ: %d\n", irqNumber2);
+   printk(KERN_INFO "parte1.c: The button 3 is mapped to IRQ: %d\n", irqNumber3);
+   printk(KERN_INFO "parte1.c: The button 4 is mapped to IRQ: %d\n", irqNumber4);
    //Llamada a la funcion 
    result = request_irq(irqNumber1, (irq_handler_t) ebbgpio_irq_handler, IRQF_TRIGGER_RISING, "ebb_gpio_handler", NULL);
 
@@ -98,14 +98,14 @@ static int __init ebbgpio_init(void){
 }
 
 static void __exit ebbgpio_exit(void){
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton1));
-   printk(KERN_INFO "parte1.c: The button was pressed %d times\n", contador1);
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton2));
-   printk(KERN_INFO "parte1.c: The button was pressed %d times\n", contador2);
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton3));
-   printk(KERN_INFO "parte1.c: The button was pressed %d times\n", contador3);
-   printk(KERN_INFO "parte1.c: The button state is currently: %d\n", gpio_get_value(boton4));
-   printk(KERN_INFO "parte1.c: The button was pressed %d times\n", contador4);
+   printk(KERN_INFO "parte1.c: The button 1 state is currently: %d\n", gpio_get_value(boton1));
+   printk(KERN_INFO "parte1.c: The button 1 was pressed %d times\n", contador1);
+   printk(KERN_INFO "parte1.c: The button 2 state is currently: %d\n", gpio_get_value(boton2));
+   printk(KERN_INFO "parte1.c: The button 2 was pressed %d times\n", contador2);
+   printk(KERN_INFO "parte1.c: The button 3 state is currently: %d\n", gpio_get_value(boton3));
+   printk(KERN_INFO "parte1.c: The button 3 was pressed %d times\n", contador3);
+   printk(KERN_INFO "parte1.c: The button 4 state is currently: %d\n", gpio_get_value(boton4));
+   printk(KERN_INFO "parte1.c: The button 4 was pressed %d times\n", contador4);
 
    gpio_set_value(ledAzul, 0);              // Turn the LED off, makes it clear the device was unloaded
    gpio_unexport(ledAzul);                  // Unexport the LED GPIO
@@ -136,7 +136,7 @@ static void __exit ebbgpio_exit(void){
 static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs){
    ledOn1 = !ledOn1;                          // Invert the LED state on each button press
    gpio_set_value(ledAzul, ledOn1);          // Set the physical LED accordingly
-   printk(KERN_INFO "parte1.c: Interrupt! (button state is %d)\n", gpio_get_value(boton1));
+   printk(KERN_INFO "parte1.c: Interrupt! (button 1 state is %d)\n", gpio_get_value(boton1));
    contador1++;                         // Global counter, will be outputted when the module is unloaded
    return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
 }
