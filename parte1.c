@@ -4,7 +4,7 @@
 #include <linux/gpio.h>         
 #include <linux/interrupt.h>
 
-MODULE_LICENSE("");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Andres Restrepo");
 MODULE_DESCRIPTION("Controlar 2 LEDS mediante 4 botones");
 MODULE_VERSION("0.1");
@@ -119,13 +119,17 @@ static void __exit ebbgpio_exit(void){
 
    gpio_unexport(boton1);               // Unexport the Button GPIO
    gpio_unexport(boton2);               // Unexport the Button GPIO
+   gpio_unexport(boton3);               // Unexport the Button GPIO
+   gpio_unexport(boton4);               // Unexport the Button GPIO
 
    gpio_free(ledAzul);                      // Free the LED GPIO
    gpio_free(ledVerde);                      // Free the LED GPIO
    gpio_free(boton1);                      // Free the button GPIO
    gpio_free(boton2);                      // Free the button GPIO
    gpio_free(boton3);                      // Free the button GPIO
-   gpio_free(boton4);                   // Free the button GPIO
+   gpio_free(boton4);
+
+   // Free the button GPIO
    printk(KERN_INFO "parte1.c: Goodbye from the LKM!\n");
 }
 
