@@ -1,1 +1,0 @@
-cmd_/home/pi/Practica1/simple_module.ko := ld -r  -EL  --build-id=sha1  -T scripts/module.lds -o /home/pi/Practica1/simple_module.ko /home/pi/Practica1/simple_module.o /home/pi/Practica1/simple_module.mod.o;  true
